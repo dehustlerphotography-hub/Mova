@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Request Ride</title>
+
+<style>
+body{
+font-family:Arial;
+background:#f4f4f4;
+padding:20px;
+}
+
+input{
+width:100%;
+padding:15px;
+margin-top:10px;
+margin-bottom:20px;
+font-size:16px;
+}
+
+button{
+width:100%;
+padding:15px;
+font-size:18px;
+background:#009688;
+color:white;
+border:none;
+border-radius:8px;
+}
+</style>
+
+</head>
+
+<body>
+
+<h2>🚖 Request a Ride</h2>
+
+<label>Pickup Location</label>
+<input id="pickup" placeholder="Enter pickup">
+
+<label>Destination</label>
+<input id="destination" placeholder="Enter destination">
+
+<button id="rideBtn">
+Request Ride
+</button>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyC0q7RT69r6V6KovySMMU_HqCe1HRtWGgs",
+  authDomain: "mova-543b1.firebaseapp.com",
+  databaseURL: "https://mova-543b1-default-rtdb.firebaseio.com",
+  projectId: "mova-543b1",
+  storageBucket: "mova-543b1.firebasestorage.app",
+  messagingSenderId: "828362078699",
+  appId: "1:828362078699:web:e8f5d7f59c5af3a603c1ae"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+document.getElementById("rideBtn").addEventListener("click", function(){
+
+let pickup = document.getElementById("pickup").value;
+let destination = document.getElementById("destination").value;
+
+if(pickup=="" || destination==""){
+alert("Please fill in all fields");
+return;
+}
+
+push(ref(db,"rideRequests"),{
+pickup:pickup,
+destination:destination,
+status:"waiting"
+});
+
+alert("Ride request sent!");
+
+});
+
+</script>
+
+</body>
+</html>
