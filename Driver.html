@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Mova Driver</title>
+
+<style>
+body{
+    font-family:Arial;
+    background:#f4f4f4;
+    padding:20px;
+}
+
+.ride{
+    background:white;
+    padding:15px;
+    margin-bottom:15px;
+    border-radius:10px;
+    box-shadow:0 2px 5px rgba(0,0,0,.2);
+}
+
+button{
+    width:100%;
+    padding:12px;
+    background:#009688;
+    color:white;
+    border:none;
+    border-radius:8px;
+    font-size:16px;
+}
+</style>
+
+</head>
+
+<body>
+
+<h2>🚖 Mova Driver</h2>
+
+<div id="rides"></div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyC0q7RT69r6V6KovySMMU_HqCe1HRtWGgs",
+  authDomain: "mova-543b1.firebaseapp.com",
+  databaseURL: "https://mova-543b1-default-rtdb.firebaseio.com",
+  projectId: "mova-543b1",
+  storageBucket: "mova-543b1.firebasestorage.app",
+  messagingSenderId: "828362078699",
+  appId: "1:828362078699:web:e8f5d7f59c5af3a603c1ae"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+const rides = document.getElementById("rides");
+
+onValue(ref(db,"rideRequests"), (snapshot)=>{
+
+rides.innerHTML="";
+
+snapshot.forEach((child)=>{
+
+const ride = child.val();
+
+rides.innerHTML += `
+<div class="ride">
+<b>Pickup:</b> ${ride.pickup}<br><br>
+<b>Destination:</b> ${ride.destination}<br><br>
+<b>Status:</b> ${ride.status}
+</div>
+`;
+
+});
+
+});
+
+</script>
+
+</body>
+</html>
